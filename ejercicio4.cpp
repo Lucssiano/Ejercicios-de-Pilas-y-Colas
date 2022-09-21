@@ -13,24 +13,24 @@ struct Nodo
 
 void apilar(Nodo *&pila, int num);
 void desapilar(Nodo *&pila, int &num);
-Nodo modificarPila(Nodo *pila, int x, int y);
+void modificarPila(Nodo *pila, int num, int x, int y);
+void mostrarPilaDesapilada(Nodo *pila, int num);
 
 int main()
 {
   Nodo *pilaNums = NULL;
   int i, num;
 
-  // Creo la pila
-  for (i = 1; i <= 10; i++)
+  for (i = 0; i < 10; i++)
   {
     cout << "Agregar un numero: ";
     cin >> num;
     apilar(pilaNums, num);
   }
 
-  int cantNumAgregados = i - 1, x = 4, y = 8;
+  int cantNumAgregados = i, x = 4, y = 5;
 
-  modificarPila(pilaNums, x, y);
+  modificarPila(pilaNums, num, x, y);
 
   return 0;
 }
@@ -43,15 +43,24 @@ void apilar(Nodo *&pila, int dato)
   pila = p;
 }
 
-Nodo modificarPila(Nodo *pila, int x, int y)
+void modificarPila(Nodo *pila, int num, int x, int y)
 {
-  int num;
+  Nodo *nuevaPilaNums = NULL;
   while (pila != NULL)
   {
-    // desapilar(pila, dato);
-    cout << num << endl;
+    desapilar(pila, num);
+    if (num == y)
+      apilar(nuevaPilaNums, x);
+    else
+      apilar(nuevaPilaNums, num);
   }
-  return *pila;
+  while (nuevaPilaNums != NULL)
+  {
+    desapilar(nuevaPilaNums, num);
+    apilar(pila, num);
+  }
+  // return *pila;
+  mostrarPilaDesapilada(pila, num);
 }
 
 void desapilar(Nodo *&pila, int &dato)
@@ -65,5 +74,15 @@ void desapilar(Nodo *&pila, int &dato)
     dato = p->info;
     pila = p->sig;
     delete p;
+  }
+}
+
+void mostrarPilaDesapilada(Nodo *pila, int num)
+{
+  cout << "PILA DESAPILADA" << endl;
+  while (pila != NULL)
+  {
+    desapilar(pila, num);
+    cout << num << endl;
   }
 }
