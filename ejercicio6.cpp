@@ -1,10 +1,7 @@
 /* 6) Desarrollar una función que dada una cola de personas (de cada persona se tiene dni y nombre)
 y un dni, si esta persona está en la cola, la mueva al último lugar de la misma. */
 
-// Tengo una cola con 6 personas por ej (con su respectivo dni y nombre), me viene una nueva persona con estos datos, entonces verifico si está en la cola, si está la muevo al ultimo lugar (?)
-
 #include <iostream>
-#include <stdio.h>
 #include <string.h>
 
 using namespace std;
@@ -23,27 +20,53 @@ struct NodoCola
 
 void encolar(NodoCola *&pri, NodoCola *&ult, Persona persona);
 Persona desencolar(NodoCola *&pri, NodoCola *&ult);
+void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni, int cantPersonasEnLaCola);
 
 int main()
 {
   NodoCola *priColaNums = NULL;
   NodoCola *ultColaNums = NULL;
 
-  int num;
+  Persona pj;
 
-  // for (int i = 0; i < 6; i++)
-  // {
-  //   cout << "Agregar un numero: ";
-  //   cin >> num;
-  //   encolar(priColaNums, ultColaNums, num);
-  // }
+  int i;
 
-  // if (ejercicio5(priColaNums, ultColaNums))
-  //   cout << "Pudo desencolar 4 veces, VERDADERO";
-  // else
-  //   cout << "No pudo desencolar 4 veces, FALSO";
+  for (i = 0; i < 5; i++)
+  {
+    cout << "Agregar un numero de dni: ";
+    cin >> pj.dni;
+    // cout << "Agregar el nombre de la persona: ";
+    // cin >> pj.nombre;
+    pj.nombre = "Carlos";
+    encolar(priColaNums, ultColaNums, pj);
+  }
+
+  int dni = 4;
+  moverPersonas(priColaNums, ultColaNums, pj, dni, i);
 
   return 0;
+}
+
+// Pensaba recorrer con dos punteros pero creo que eso es una lista , ¿deberia usar una pila para guardar los datos que desencolo?
+// void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni)
+// {
+//   NodoCola *pRecorrido = pri;
+//   NodoCola *pAntRecorrido;
+
+//   while (pRecorrido->info.dni != dni || pRecorrido == NULL)
+//     pRecorrido = pRecorrido->sig;
+
+//   if (pRecorrido != NULL)
+//   {
+//   }
+// }
+
+void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni, int cantPersonasEnLaCola)
+{
+  while (pri != NULL && pri->info.dni != dni)
+  {
+    desencolar(pri, ult);
+  }
 }
 
 void encolar(NodoCola *&pri, NodoCola *&ult, Persona persona)

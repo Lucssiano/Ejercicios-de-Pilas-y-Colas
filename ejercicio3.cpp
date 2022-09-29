@@ -16,19 +16,18 @@ struct Nodo
 
 void apilar(Nodo *&pila, char letra);
 void desapilar(Nodo *&pila, char &letra);
-bool esCapicua(Nodo *&pila, char palabra[cantMaxCaracteres], int cantCaracteresDeLaPalabra);
+bool esCapicua(char palabra[cantMaxCaracteres], int cantCaracteresDeLaPalabra);
 
 int main()
 {
   char palabra[cantMaxCaracteres];
-  Nodo *pilaCaracteres = NULL;
 
   cout << "Ingrese una palabra de no mas de 10 caracteres: ";
   cin >> palabra;
 
   int cantCaracteresDeLaPalabra = strlen(palabra);
 
-  if (esCapicua(pilaCaracteres, palabra, cantCaracteresDeLaPalabra))
+  if (esCapicua(palabra, cantCaracteresDeLaPalabra))
     cout << "Es capicua, VERDADERO" << endl;
   else
     cout << "NO es capicua, FALSO" << endl;
@@ -36,27 +35,40 @@ int main()
   return 0;
 }
 
-bool esCapicua(Nodo *&pila, char palabra[cantMaxCaracteres], int cantCaracteresDeLaPalabra)
+bool esCapicua(char palabra[cantMaxCaracteres], int cantCaracteresDeLaPalabra)
 {
+  Nodo *pilaCaracteres = NULL;
   bool capicua = false;
 
   int mitadDeLaPalabra = cantCaracteresDeLaPalabra / 2;
 
   for (int i = 0; i < mitadDeLaPalabra; i++)
-    apilar(pila, palabra[i]);
+    apilar(pilaCaracteres, palabra[i]);
 
   int cantLetrasIguales = 0, j;
 
+  // neuquen - aloe
   if (cantCaracteresDeLaPalabra % 2 == 0)
     j = mitadDeLaPalabra;
   else
     j = mitadDeLaPalabra + 1;
 
-  for (j; j < cantCaracteresDeLaPalabra; j++)
+  // while (pilaCaracteres->letra == palabra[j] && j < cantCaracteresDeLaPalabra)
+  // {
+  //   // cout << j;
+  //   cantLetrasIguales++;
+  //   desapilar(pilaCaracteres, palabra[j]);
+  //   j++;
+  // }
+
+  // cout << mitadDeLaPalabra << endl;
+  // cout << cantLetrasIguales;
+
+  for (j; j < cantCaracteresDeLaPalabra; j++) // while con misma condicion de for, pilaCaracteres->letra != palabra[j] me dijo la profe
   {
-    if (pila->letra == palabra[j])
+    if (pilaCaracteres->letra == palabra[j])
       cantLetrasIguales++;
-    desapilar(pila, palabra[j]);
+    desapilar(pilaCaracteres, palabra[j]);
   }
 
   if (mitadDeLaPalabra == cantLetrasIguales)

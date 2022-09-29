@@ -3,7 +3,7 @@ Punta del Este y Mar del Plata. Tiene una cola de espera para cada localidad, y 
 nombre y apellido del pasajero y número de documento.
 
 a) Desarrolle una función que, dados los datos del pasajero y el lugar de destino, lo incluya
-en la cola de espera correspondiente.
+en la cola de espera correspondiente. // Un solo pasajero
 
 b) Desarrolle una función que, dado el destino y la cantidad de asientos libres de un avión,
 retire de la cola de espera a aquellas personas que ahora pueden viajar, e informe los
@@ -17,7 +17,7 @@ using namespace std;
 struct Pasajero
 {
   int dni;
-  char nombreYApellido[36], lugarDeDestino[36];
+  char nombreYApellido[36];
 };
 
 struct NodoCola
@@ -27,7 +27,7 @@ struct NodoCola
 };
 
 void puntoA(NodoCola *&priMDQ, NodoCola *&ultMDQ, NodoCola *&priPDE, NodoCola *&ultPDE, NodoCola *&priMV, NodoCola *&ultMV);
-void puntoB();
+void puntoB(NodoCola *&priMDQ, NodoCola *&ultMDQ, NodoCola *&priPDE, NodoCola *&ultPDE, NodoCola *&priMV, NodoCola *&ultMV);
 void encolar(NodoCola *&pri, NodoCola *&ult, Pasajero dato);
 Pasajero desencolar(NodoCola *&pri, NodoCola *&ult);
 
@@ -38,75 +38,88 @@ int main()
   NodoCola *priColaMDQ = NULL, *ultColaMDQ = NULL;
 
   puntoA(priColaMDQ, ultColaMDQ, priColaPDelEste, ultColaPDelEste, priColaMontevideo, ultColaMontevideo);
-  // puntoB();
+  puntoB(priColaMDQ, ultColaMDQ, priColaPDelEste, ultColaPDelEste, priColaMontevideo, ultColaMontevideo);
   return 0;
 }
 
 void puntoA(NodoCola *&priMDQ, NodoCola *&ultMDQ, NodoCola *&priPDE, NodoCola *&ultPDE, NodoCola *&priMV, NodoCola *&ultMV)
 {
   Pasajero psj;
+  string lugarDeDestino;
 
-  // Ingreso pasajeros para agregar en la  cola
-  for (int i = 0; i < 2; i++)
+  cout << "Ingrese DNI del pasajero: ";
+  cin >> psj.dni;
+  cout << "Agregar nombre y apellido del pasajero: ";
+  fflush(stdin);
+  cin.getline(psj.nombreYApellido, 36);
+  cout << "Ingrese el lugar de destino (MDQ , PDE o MV): ";
+  cin >> lugarDeDestino;
+
+  // ¿Se supone que la cola de pasajeros ya existe, no?
+  if (lugarDeDestino == "MDQ")
+    encolar(priMDQ, ultMDQ, psj);
+  else if (lugarDeDestino == "PDE")
+    encolar(priPDE, ultPDE, psj);
+  else if (lugarDeDestino == "MV")
+    encolar(priMV, ultMV, psj);
+
+  // while (priMDQ != NULL)
+  // {
+  //   cout << "COLA MDQ DESENCOLADA" << endl;
+  //   desencolar(priMDQ, ultMDQ);
+  // }
+
+  // while (priPDE != NULL)
+  // {
+  //   cout << "COLA PUNTA DEL ESTE DESENCOLADA" << endl;
+  //   desencolar(priPDE, ultPDE);
+  // }
+
+  // while (priMV != NULL)
+  // {
+  //   cout << "COLA MONTEVIDEO DESENCOLADA" << endl;
+  //   desencolar(priMV, ultMV);
+  // }
+}
+
+void puntoB(NodoCola *&priMDQ, NodoCola *&ultMDQ, NodoCola *&priPDE, NodoCola *&ultPDE, NodoCola *&priMV, NodoCola *&ultMV)
+{
+  string lugarDeDestino;
+  int cantAsientosLibres = 40;
+
+  cout << "Ingrese el lugar de destino (MDQ , PDE o MV): ";
+  cin >> lugarDeDestino;
+
+  int cantDesencolados = 0;
+  if (lugarDeDestino == "MDQ")
   {
-    cout << "Ingrese DNI del pasajero: ";
-    cin >> psj.dni;
-    cout << "Agregar nombre y apellido del pasajero: ";
-    fflush(stdin);
-    cin.getline(psj.nombreYApellido, 36);
-    cout << "Ingrese el lugar de destino (MDQ , PDE o MV): ";
-    fflush(stdin);
-    cin.getline(psj.lugarDeDestino, 36);
-
-    NodoCola *priColaALlenar = NULL, *ultColaALlenar = NULL;
-    if (strcmpi(psj.lugarDeDestino, "MDQ") == 0)
+    while (cantDesencolados < cantAsientosLibres && priMDQ != NULL)
     {
-      cout << "entraK1" << endl;
-      priColaALlenar = priMDQ;
-      ultColaALlenar = ultMDQ;
+      Pasajero personaDesencolada = desencolar(priMDQ, ultMDQ);
+      cout << personaDesencolada.dni << endl;
+      cout << personaDesencolada.nombreYApellido << endl;
+      cantDesencolados++;
     }
-    else if (strcmpi(psj.lugarDeDestino, "PDE") == 0)
+  }
+  else if (lugarDeDestino == "PDE")
+  {
+    while (cantDesencolados < cantAsientosLibres)
     {
-      cout << "entraK2" << endl;
-      priColaALlenar = priPDE;
-      ultColaALlenar = ultPDE;
+      Pasajero personaDesencolada = desencolar(priMDQ, ultMDQ);
+      cout << personaDesencolada.dni << endl;
+      cout << personaDesencolada.nombreYApellido << endl;
+      cantDesencolados++;
     }
-    else if (strcmpi(psj.lugarDeDestino, "MV") == 0)
+  }
+  else if (lugarDeDestino == "MV")
+  {
+    while (cantDesencolados < cantAsientosLibres)
     {
-      cout << "entraK3" << endl;
-      priColaALlenar = priMV;
-      ultColaALlenar = ultMV;
+      Pasajero personaDesencolada = desencolar(priMDQ, ultMDQ);
+      cout << personaDesencolada.dni << endl;
+      cout << personaDesencolada.nombreYApellido << endl;
+      cantDesencolados++;
     }
-
-    // cout << "priColaAllenar " << priColaALlenar << endl;
-    // cout << "priColaAllenar " << ultColaALlenar << endl;
-    // cout << "priMDQ " << priMDQ << endl;
-    // cout << "ultMDQ " << ultMDQ << endl;
-
-    encolar(priColaALlenar, ultColaALlenar, psj);
-  }
-
-  // cout << priMDQ;
-
-  cout << "COLA MDQ DESENCOLADA" << endl;
-  while (priMDQ != NULL)
-  {
-    cout << "entra" << endl;
-    desencolar(priMDQ, ultMDQ);
-  }
-
-  cout << "COLA PUNTA DEL ESTE DESENCOLADA" << endl;
-  while (priPDE != NULL)
-  {
-    cout << "entra" << endl;
-    desencolar(priPDE, ultPDE);
-  }
-
-  cout << "COLA MONTEVIDEO DESENCOLADA" << endl;
-  while (priMV != NULL)
-  {
-    cout << "entra" << endl;
-    desencolar(priMV, ultMV);
   }
 }
 
@@ -122,10 +135,6 @@ void encolar(NodoCola *&pri, NodoCola *&ult, Pasajero dato)
   ult = p;
 }
 
-void puntoB()
-{
-}
-
 Pasajero desencolar(NodoCola *&pri, NodoCola *&ult)
 {
   Pasajero dato;
@@ -135,8 +144,5 @@ Pasajero desencolar(NodoCola *&pri, NodoCola *&ult)
   delete p;
   if (pri == NULL)
     ult = NULL;
-  cout << dato.dni << endl;
-  cout << dato.nombreYApellido << endl;
-  cout << dato.lugarDeDestino << endl;
   return dato;
 }
