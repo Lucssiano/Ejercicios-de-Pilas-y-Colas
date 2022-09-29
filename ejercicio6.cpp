@@ -47,19 +47,10 @@ int main()
   return 0;
 }
 
-// Pensaba recorrer con dos punteros pero creo que eso es una lista , ¿deberia usar una pila para guardar los datos que desencolo?
-// void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni)
-// {
-//   NodoCola *pRecorrido = pri;
-//   NodoCola *pAntRecorrido;
-
-//   while (pRecorrido->info.dni != dni || pRecorrido == NULL)
-//     pRecorrido = pRecorrido->sig;
-
-//   if (pRecorrido != NULL)
-//   {
-//   }
-// }
+// 1 2 3 4 5
+// 3
+// 1 2 4 5 3
+// Guardar 1 2 4 5 en una cola y despues encolo el 3
 
 void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni, int cantPersonasEnLaCola)
 {

@@ -9,6 +9,8 @@ b) Desarrolle una función que, dado el destino y la cantidad de asientos libres
 retire de la cola de espera a aquellas personas que ahora pueden viajar, e informe los
 datos. */
 
+/* Crear las colas */
+
 #include <iostream>
 #include <string.h>
 
