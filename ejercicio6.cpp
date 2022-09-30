@@ -20,7 +20,8 @@ struct NodoCola
 
 void encolar(NodoCola *&pri, NodoCola *&ult, Persona persona);
 Persona desencolar(NodoCola *&pri, NodoCola *&ult);
-void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni, int cantPersonasEnLaCola);
+void moverPersonas(NodoCola *&pri, NodoCola *&ult, int dni);
+void moverPersonas2(NodoCola *&pri, NodoCola *&ult, int dni);
 
 int main()
 {
@@ -29,9 +30,7 @@ int main()
 
   Persona pj;
 
-  int i;
-
-  for (i = 0; i < 5; i++)
+  for (int i = 0; i < 5; i++)
   {
     cout << "Agregar un numero de dni: ";
     cin >> pj.dni;
@@ -41,8 +40,9 @@ int main()
     encolar(priColaNums, ultColaNums, pj);
   }
 
-  int dni = 4;
-  moverPersonas(priColaNums, ultColaNums, pj, dni, i);
+  int dni = 1;
+  // moverPersonas(priColaNums, ultColaNums, dni);
+  moverPersonas2(priColaNums, ultColaNums, dni);
 
   return 0;
 }
@@ -50,12 +50,69 @@ int main()
 // 1 2 3 4 5
 // 3
 // 1 2 4 5 3
-// Guardar 1 2 4 5 en una cola y despues encolo el 3
 
-void moverPersonas(NodoCola *&pri, NodoCola *&ult, Persona persona, int dni, int cantPersonasEnLaCola)
+// void moverPersonas(NodoCola *&pri, NodoCola *&ult, int dni)
+// {
+//   NodoCola *priNuevaCola = NULL;
+//   NodoCola *ultNuevaCola = NULL;
+
+//   Persona personaAMover;
+
+//   while (pri != NULL)
+//   {
+//     if (pri->info.dni != dni)
+//       encolar(priNuevaCola, ultNuevaCola, pri->info);
+//     else
+//       personaAMover = pri->info;
+//     desencolar(pri, ult);
+//   }
+
+//   while (priNuevaCola != NULL)
+//   {
+//     encolar(pri, ult, priNuevaCola->info);
+//     desencolar(priNuevaCola, ultNuevaCola);
+//   }
+//   encolar(pri, ult, personaAMover);
+
+//   // Para ver el ejercicio resuelto
+//   while (pri != NULL)
+//   {
+//     cout << pri->info.dni << " ";
+//     desencolar(pri, ult);
+//   }
+// }
+
+void moverPersonas2(NodoCola *&pri, NodoCola *&ult, int dni)
 {
-  while (pri != NULL && pri->info.dni != dni)
+
+  if (pri->info.dni == dni)
   {
+    encolar(pri, ult, pri->info); // ¿Está bien encolar y despues desencolar en la misma lista siendo "la misma persona"?
+    desencolar(pri, ult);
+  }
+  else
+  {
+    Persona priElemCola = pri->info, personaAMover;
+    while (pri->info.dni != priElemCola.dni)
+    {
+      if (pri->info.dni != dni)
+      {
+        encolar(pri, ult, pri->info);
+        desencolar(pri, ult);
+      }
+      else
+      {
+        personaAMover = pri->info;
+        desencolar(pri, ult);
+      }
+    }
+    encolar(pri, ult, personaAMover);
+  }
+
+  // Para ver el ejercicio resuelto
+  while (pri != NULL)
+  {
+    cout << pri->info.dni << " ";
     desencolar(pri, ult);
   }
 }
