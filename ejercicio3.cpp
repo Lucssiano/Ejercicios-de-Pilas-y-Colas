@@ -53,23 +53,27 @@ bool esCapicua(char palabra[cantMaxCaracteres], int cantCaracteresDeLaPalabra)
   else
     j = mitadDeLaPalabra + 1;
 
-  // while (pilaCaracteres->letra == palabra[j] && j < cantCaracteresDeLaPalabra)
+  while (pilaCaracteres != NULL && pilaCaracteres->letra == palabra[j])
+  {
+    cantLetrasIguales++;
+    desapilar(pilaCaracteres, palabra[j]);
+    j++;
+  }
+
+  // for (j; j < cantCaracteresDeLaPalabra; j++) // while con misma condicion de for, pilaCaracteres->letra != palabra[j] me dijo la profe
   // {
-  //   // cout << j;
-  //   cantLetrasIguales++;
+  //   if (pilaCaracteres->letra == palabra[j])
+  //     cantLetrasIguales++;
+  //   desapilar(pilaCaracteres, palabra[j]);
+  // }
+
+  // while (pilaCaracteres != NULL)
+  // {
+  //   if (pilaCaracteres->letra == palabra[j])
+  //     cantLetrasIguales++;
   //   desapilar(pilaCaracteres, palabra[j]);
   //   j++;
   // }
-
-  // cout << mitadDeLaPalabra << endl;
-  // cout << cantLetrasIguales;
-
-  for (j; j < cantCaracteresDeLaPalabra; j++) // while con misma condicion de for, pilaCaracteres->letra != palabra[j] me dijo la profe
-  {
-    if (pilaCaracteres->letra == palabra[j])
-      cantLetrasIguales++;
-    desapilar(pilaCaracteres, palabra[j]);
-  }
 
   if (mitadDeLaPalabra == cantLetrasIguales)
     capicua = true;
