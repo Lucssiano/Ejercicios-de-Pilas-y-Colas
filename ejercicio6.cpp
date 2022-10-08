@@ -40,16 +40,37 @@ int main()
     encolar(priColaNums, ultColaNums, pj);
   }
 
-  int dni = 1;
+  int dni = 3;
   // moverPersonas(priColaNums, ultColaNums, dni);
   moverPersonas2(priColaNums, ultColaNums, dni);
 
   return 0;
 }
 
-// 1 2 3 4 5
-// 3
-// 1 2 4 5 3
+void moverPersonas2(NodoCola *&pri, NodoCola *&ult, int dni)
+{
+  Persona personaAMover;
+  Persona priCola = desencolar(pri, ult);
+  encolar(pri, ult, priCola);
+
+  if (priCola.dni != dni)
+  {
+    while (pri->info.dni != priCola.dni)
+    {
+      if (pri->info.dni != dni)
+      {
+        Persona desencolado = desencolar(pri, ult);
+        encolar(pri, ult, desencolado);
+      }
+      else
+      {
+        personaAMover = pri->info;
+        desencolar(pri, ult);
+      }
+    }
+    encolar(pri, ult, personaAMover);
+  }
+}
 
 // void moverPersonas(NodoCola *&pri, NodoCola *&ult, int dni)
 // {
@@ -82,40 +103,42 @@ int main()
 //   }
 // }
 
-void moverPersonas2(NodoCola *&pri, NodoCola *&ult, int dni)
-{
+// void moverPersonas2(NodoCola *&pri, NodoCola *&ult, int dni)
+// {
 
-  if (pri->info.dni == dni)
-  {
-    encolar(pri, ult, pri->info); // ¿Está bien encolar y despues desencolar en la misma lista siendo "la misma persona"?
-    desencolar(pri, ult);
-  }
-  else
-  {
-    Persona priElemCola = pri->info, personaAMover;
-    while (pri->info.dni != priElemCola.dni)
-    {
-      if (pri->info.dni != dni)
-      {
-        encolar(pri, ult, pri->info);
-        desencolar(pri, ult);
-      }
-      else
-      {
-        personaAMover = pri->info;
-        desencolar(pri, ult);
-      }
-    }
-    encolar(pri, ult, personaAMover);
-  }
+//   if (pri->info.dni != dni)
+//   {
+//     encolar(pri, ult, pri->info);
+//     desencolar(pri, ult);
+//   }
+//   else
+//   {
+//     Persona priElemCola = pri->info, personaAMover;
+//     encolar(pri, ult, priElemCola);
+//     desencolar(pri, ult);
+//     while (pri->info.dni != priElemCola.dni)
+//     {
+//       if (pri->info.dni != dni)
+//       {
+//         encolar(pri, ult, pri->info);
+//         desencolar(pri, ult);
+//       }
+//       else
+//       {
+//         personaAMover = pri->info;
+//         desencolar(pri, ult);
+//       }
+//     }
+//     encolar(pri, ult, personaAMover);
+//   }
 
-  // Para ver el ejercicio resuelto
-  while (pri != NULL)
-  {
-    cout << pri->info.dni << " ";
-    desencolar(pri, ult);
-  }
-}
+//   // Para ver el ejercicio resuelto
+//   while (pri != NULL)
+//   {
+//     cout << pri->info.dni << " ";
+//     desencolar(pri, ult);
+//   }
+// }
 
 void encolar(NodoCola *&pri, NodoCola *&ult, Persona persona)
 {
